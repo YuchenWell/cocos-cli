@@ -25,4 +25,5 @@ module.exports = function patchEmbeddedPlayer(ccm, embeddedPlayerModule) {
     }
     classAttr.setClassAttr(EmbeddedPlayer, editorExtrasTag, 'serializable', true);
     classAttr.setClassAttr(EmbeddedPlayer, editorExtrasTag, 'visible', false);
+    classAttr.setClassAttr(EmbeddedPlayer, editorExtrasTag, 'editorOnly', true);
 };
