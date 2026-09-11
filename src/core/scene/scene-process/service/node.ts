@@ -48,7 +48,8 @@ import { PrefabPreviewCanvasCommand } from './undo/commands/prefab-preview-canva
 import { broadcastAnimationPropertyCommitted } from './animation/property-commit-event';
 import { isRootNodePath, stripLeadingSlashes, validateNodeName } from '../../../engine/editor-extends/manager/path-utils';
 import { deserializeNodes, disposeSerializedNodes, serializeNodes } from './node/serialized-node-data';
-import { CreateSerializedNodesCommand, mountSerializedNodes } from './undo/commands/create-serialized-nodes-command';
+import { mountSerializedNodes } from './node/serialized-node-mount';
+import { CreateSerializedNodesCommand } from './undo/commands/create-serialized-nodes-command';
 
 const NodeMgr = EditorExtends.Node;
 
