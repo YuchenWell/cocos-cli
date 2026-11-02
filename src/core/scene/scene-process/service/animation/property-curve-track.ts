@@ -1,4 +1,4 @@
-import { AnimationClip, Asset, animation, js } from 'cc';
+import { AnimationClip, Asset, animation } from 'cc';
 import type {
     IAnimationCurveDump,
     IAnimationPropertyType,
@@ -288,9 +288,10 @@ function queryPropertyTrackMetadata(
             }
             let keyframeMetadata: PropertyTrackMetadata;
             if (isAnimationAssetValue(value)) {
+                // 资源实例只能确认 Asset 基类，不能据此收窄属性声明允许的资源类型
                 keyframeMetadata = {
-                    type: { value: js.getClassName(value) || 'cc.Asset' },
-                    valueCtor: value.constructor as new () => unknown,
+                    type: { value: 'cc.Asset' },
+                    valueCtor: Asset,
                 };
             } else if (typeof value === 'boolean' || typeof value === 'string') {
                 keyframeMetadata = { type: { value: queryObjectValueType(value) } };
@@ -299,11 +300,7 @@ function queryPropertyTrackMetadata(
             }
 
             if (inferredMetadata && inferredMetadata.type.value !== keyframeMetadata.type.value) {
-                if (!inferredMetadata.valueCtor || !keyframeMetadata.valueCtor) {
-                    return undefined;
-                }
-                // Asset 属性可引用不同资源子类，按共同基类恢复以保留各自的真实资源
-                keyframeMetadata = { type: { value: 'cc.Asset' }, valueCtor: Asset };
+                return undefined;
             }
             inferredMetadata = keyframeMetadata;
         }
