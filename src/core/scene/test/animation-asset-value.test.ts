@@ -64,4 +64,21 @@ describe('Animation asset value helpers', () => {
 
         expect(serializeAnimationAssetValue(placeholder)).toEqual({ uuid: 'texture-uuid' });
     });
+
+    it('uses a default placeholder when loading the referenced resource fails', async () => {
+        const {
+            loadAnimationAssetValue,
+            queryAnimationAssetCtor,
+            serializeAnimationAssetValue,
+        } = require('../scene-process/service/animation/asset-value');
+        const ctor = queryAnimationAssetCtor({ type: { value: 'cc.TextureAsset' } });
+        loadAny.mockImplementation((uuid: string, callback: (error: Error) => void) => {
+            callback(new Error(`Resource not found: ${uuid}`));
+        });
+
+        const placeholder = await loadAnimationAssetValue(ctor, 'missing-texture');
+
+        expect(placeholder).toBeInstanceOf(ctor);
+        expect(serializeAnimationAssetValue(placeholder)).toEqual({ uuid: 'missing-texture' });
+    });
 });

@@ -493,6 +493,7 @@ export class AnimationService extends BaseService<Record<string, any>> implement
 
             const normalized = await normalizeAnimationOperation(inputOperation, {
                 currentClipUuid: session.clipUuid,
+                clip,
                 rootNode,
                 rootPath: session.rootPath,
                 queryPropertyValueAtFrame: (queryOptions) => this.queryPropertyValueAtFrame(queryOptions),
